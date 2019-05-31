@@ -35,6 +35,9 @@ public:
         QRTL          = 21,
         QAUTOTUNE     = 22,
         QACRO         = 23,
+        AWE_LOITER_ELLIPSE = 36,
+        AWE_LOITER_3D = 37,
+        AWE_EIGHT_SPHERE = 38
     };
 
     // Constructor
@@ -448,4 +451,58 @@ protected:
 
     bool _enter() override;
     void _exit() override;
+};
+
+class ModeAWEEllipse : public Mode
+{
+public:
+
+    Number mode_number() const override { return Number::AWE_LOITER_ELLIPSE; }
+    const char *name() const override { return "AWE LOITER ELLIPSE"; }
+    const char *name4() const override { return "AWEE"; }
+
+    bool is_vtol_mode() const override { return true; }
+
+    // methods that affect movement of the vehicle in this mode
+    void update() override;
+
+protected:
+
+    bool _enter() override;
+};
+
+class ModeAWE3D : public Mode
+{
+public:
+
+    Number mode_number() const override { return Number::AWE_LOITER_3D; }
+    const char *name() const override { return "AWE LOITER 3D"; }
+    const char *name4() const override { return "AWE3D"; }
+
+    bool is_vtol_mode() const override { return true; }
+
+    // methods that affect movement of the vehicle in this mode
+    void update() override;
+
+protected:
+
+    bool _enter() override;
+};
+
+class ModeAWE8S : public Mode
+{
+public:
+
+    Number mode_number() const override { return Number::AWE_EIGHT_SPHERE; }
+    const char *name() const override { return "AWE EIGHT SPHERE"; }
+    const char *name4() const override { return "AWE8S"; }
+
+    bool is_vtol_mode() const override { return true; }
+
+    // methods that affect movement of the vehicle in this mode
+    void update() override;
+
+protected:
+
+    bool _enter() override;
 };

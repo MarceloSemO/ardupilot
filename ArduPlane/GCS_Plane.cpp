@@ -93,6 +93,9 @@ void GCS_Plane::update_vehicle_sensor_status_flags(void)
         break;
 
     case Mode::Number::INITIALISING:
+    case Mode::Number::AWE_LOITER_ELLIPSE:
+    case Mode::Number::AWE_LOITER_3D:
+    case Mode::Number::AWE_EIGHT_SPHERE:
         break;
     }
 

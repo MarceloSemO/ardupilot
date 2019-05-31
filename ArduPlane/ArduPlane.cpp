@@ -525,6 +525,9 @@ void Plane::update_navigation()
     case Mode::Number::QRTL:
     case Mode::Number::QAUTOTUNE:
     case Mode::Number::QACRO:
+    case Mode::Number::AWE_LOITER_ELLIPSE:
+    case Mode::Number::AWE_LOITER_3D:
+    case Mode::Number::AWE_EIGHT_SPHERE:
         // nothing to do
         break;
     }

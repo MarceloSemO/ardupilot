@@ -55,6 +55,9 @@ void Plane::failsafe_short_on_event(enum failsafe_state fstype, mode_reason_t re
     case Mode::Number::QLAND:
     case Mode::Number::QRTL:
     case Mode::Number::INITIALISING:
+    case Mode::Number::AWE_LOITER_ELLIPSE:
+    case Mode::Number::AWE_LOITER_3D:
+    case Mode::Number::AWE_EIGHT_SPHERE:
         break;
     }
     gcs().send_text(MAV_SEVERITY_INFO, "Flight mode = %u", (unsigned)control_mode->mode_number());
@@ -116,6 +119,9 @@ void Plane::failsafe_long_on_event(enum failsafe_state fstype, mode_reason_t rea
     case Mode::Number::QLAND:
     case Mode::Number::QRTL:
     case Mode::Number::INITIALISING:
+    case Mode::Number::AWE_LOITER_ELLIPSE:
+    case Mode::Number::AWE_LOITER_3D:
+    case Mode::Number::AWE_EIGHT_SPHERE:
         break;
     }
     gcs().send_text(MAV_SEVERITY_INFO, "Flight mode = %u", (unsigned)control_mode->mode_number());

@@ -166,6 +166,9 @@ public:
     friend class ModeQRTL;
     friend class ModeQAcro;
     friend class ModeQAutotune;
+    friend class ModeAWEEllipse;
+    friend class ModeAWE3D;
+    friend class ModeAWE8S;
 
     Plane(void);
 
@@ -331,6 +334,9 @@ private:
     ModeQRTL mode_qrtl;
     ModeQAcro mode_qacro;
     ModeQAutotune mode_qautotune;
+    ModeAWEEllipse mode_aweellipse;
+    ModeAWE3D mode_awe3d;
+    ModeAWE8S mode_awe8s;
 
     // This is the state of the flight control system
     // There are multiple states defined such as MANUAL, FBW-A, AUTO
