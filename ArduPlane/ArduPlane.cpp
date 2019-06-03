@@ -511,10 +511,13 @@ void Plane::update_navigation()
 
     case Mode::Number::AWE_LOITER_ELLIPSE:
         update_awe_loiter_ellipse();
+        break;
     case Mode::Number::AWE_LOITER_3D:
         update_awe_loiter_3d();
+        break;
     case Mode::Number::AWE_EIGHT_SPHERE:
         update_awe_eight_sphere();
+        break;
 
     case Mode::Number::MANUAL:
     case Mode::Number::STABILIZE:
