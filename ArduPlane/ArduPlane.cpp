@@ -509,6 +509,13 @@ void Plane::update_navigation()
         update_cruise();
         break;
 
+    case Mode::Number::AWE_LOITER_ELLIPSE:
+        update_awe_loiter_ellipse();
+    case Mode::Number::AWE_LOITER_3D:
+        update_awe_loiter_3d();
+    case Mode::Number::AWE_EIGHT_SPHERE:
+        update_awe_eight_sphere();
+
     case Mode::Number::MANUAL:
     case Mode::Number::STABILIZE:
     case Mode::Number::TRAINING:
@@ -525,9 +532,6 @@ void Plane::update_navigation()
     case Mode::Number::QRTL:
     case Mode::Number::QAUTOTUNE:
     case Mode::Number::QACRO:
-    case Mode::Number::AWE_LOITER_ELLIPSE:
-    case Mode::Number::AWE_LOITER_3D:
-    case Mode::Number::AWE_EIGHT_SPHERE:
         // nothing to do
         break;
     }

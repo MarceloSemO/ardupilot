@@ -1073,6 +1073,11 @@ private:
     void do_awe_loiter_3d();
     void do_awe_eight_sphere();
 
+    void update_awe_loiter_ellipse();
+    void update_awe_loiter_3d();    
+    void update_awe_eight_sphere();
+
+    
     enum Failsafe_Action {
         Failsafe_Action_None      = 0,
         Failsafe_Action_RTL       = 1,
