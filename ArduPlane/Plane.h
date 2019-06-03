@@ -604,6 +604,27 @@ private:
         uint32_t impact_timer_ms;
     } crash_state;
 
+    // Structs for AWE flight modes
+    
+    // circle (S1) on a sphere (S2)
+    struct circ_on_sphere {
+        struct Location S2_loc; // center of the sphere
+        Vector3f ercv; // unit vector from center of the circle to the center of the sphere
+        int32_t S2_radius_cm; // sphere radius in cm
+        int32_t S1_radius_cm; // circle radius in cm
+        int32_t distance_cm; // distance of center of the circle from the center of the sphere
+        float theta_rho_deg; // half of the opening angle of the cone with center of sphere as base
+        float azimuth_deg; // azimuthal angle in degrees
+        float elevation_deg; // elevation angle in degrees
+        int8_t orientation; // orientation of the circle
+        // variables to store the current and desired location and velocity
+        struct Location aircraft_loc;
+        Vector3f aircraft_vel;
+        struct Location desired_loc;
+    } S1_in_S2;
+
+
+
     // true if we are in an auto-throttle mode, which means
     // we need to run the speed/height controller
     bool auto_throttle_mode:1;

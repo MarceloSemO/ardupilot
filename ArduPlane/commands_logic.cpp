@@ -1123,7 +1123,22 @@ void Plane::do_awe_loiter_ellipse()
 
 void Plane::do_awe_loiter_3d()
 {
-    //TODO: implement funcitonallity
+    S1_in_S2.S2_loc = home;
+    S1_in_S2.S2_radius_cm = 24000;
+    S1_in_S2.theta_rho_deg = 20.0f;
+    S1_in_S2.S1_radius_cm = S1_in_S2.S2_radius_cm * sinf(radians(S1_in_S2.theta_rho_deg));
+    S1_in_S2.azimuth_deg = 0.0f;
+    S1_in_S2.elevation_deg = 30.0f;
+    S1_in_S2.orientation = 1;
+
+    float theta = 90.0f - S1_in_S2.elevation_deg;
+
+    float cos_psi = cosf(radians(S1_in_S2.azimuth_deg));
+    float sin_psi = sinf(radians(S1_in_S2.azimuth_deg));
+    float cos_theta = cosf(radians(theta));
+    float sin_theta = sinf(radians(theta));
+
+    S1_in_S2.ercv = Vector3f(sin_theta * cos_psi, sin_theta * sin_psi, -cos_theta);
 }
 
 void Plane::do_awe_eight_sphere()
