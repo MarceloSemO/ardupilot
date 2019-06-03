@@ -3,6 +3,8 @@
 
 bool ModeAWE3D::_enter()
 {
+    plane.auto_throttle_mode = true;
+    plane.do_awe_loiter_3d();
     return true;
 }
 

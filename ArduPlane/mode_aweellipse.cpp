@@ -3,6 +3,8 @@
 
 bool ModeAWEEllipse::_enter()
 {
+    plane.auto_throttle_mode = true;
+    plane.do_awe_loiter_ellipse();
     return true;
 }
 

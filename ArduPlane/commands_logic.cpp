@@ -1114,3 +1114,19 @@ bool Plane::verify_loiter_heading(bool init)
     }
     return false;
 }
+
+
+void Plane::do_awe_loiter_ellipse()
+{
+    //TODO: implement funcitonallity
+}
+
+void Plane::do_awe_loiter_3d()
+{
+    //TODO: implement funcitonallity
+}
+
+void Plane::do_awe_eight_sphere()
+{
+    //TODO: implement funcitonallity
+}
