@@ -262,7 +262,7 @@ void Plane::update_awe_loiter_ellipse()
 
 void Plane::update_awe_loiter_3d()
 {
-    //TODO: implement function
+    nav_controller->update_loiter_3d(S1_in_S2.S2_loc, S1_in_S2.ercv, S1_in_S2.S2_radius_cm, S1_in_S2.theta_rho_deg, S1_in_S2.orientation, S1_in_S2.aircraft_loc, S1_in_S2.aircraft_vel, S1_in_S2.desired_loc);
 }
 
 void Plane::update_awe_eight_sphere()
