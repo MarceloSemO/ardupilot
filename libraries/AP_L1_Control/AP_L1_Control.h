@@ -57,6 +57,8 @@ public:
     void update_level_flight(void) override;
     bool reached_loiter_target(void) override;
 
+    void update_loiter_3d(const struct Location &S2center, const Vector3f &ercv, int32_t S2radius, const float theta_rho, int8_t orientation, struct Location &aircraft_loc, Vector3f &aircraft_vel, struct Location &desired_loc) override;
+   
     // set the default NAVL1_PERIOD
     void set_default_period(float period) {
         _L1_period.set_default(period);
