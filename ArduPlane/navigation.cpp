@@ -267,7 +267,104 @@ void Plane::update_awe_loiter_3d()
 
 void Plane::update_awe_eight_sphere()
 {
-    //TODO: implement function
+    
+    Vector3f current_ercv = eight_in_S2.current_ercv();
+    int32_t current_theta_r = eight_in_S2.current_theta_r();
+    int8_t current_orientation = eight_in_S2.current_orientation();
+
+    nav_controller->update_loiter_3d(eight_in_S2.S2_loc, current_ercv, eight_in_S2.S2_radius_cm, current_theta_r, current_orientation, eight_in_S2.aircraft_loc, eight_in_S2.aircraft_vel, eight_in_S2.desired_loc);
+    
+    struct Location aloc = eight_in_S2.aircraft_loc;
+    Vector3f rav = eight_in_S2.S2_loc.get_distance_NED(aloc);
+    // position vector from the center of the S2 to the aircraft projected onto the tangential plane at the crossing point
+    Vector3f _rxaplanev = eight_in_S2.rxaplanev(rav);
+    // minimum distance of aircraft from crossing point in the plane at which consecutive segment switching is allowed
+    float _mindistxaplane = 0.25f * eight_in_S2.S2_radius_cm / 100.0f * eight_in_S2.sin_theta_0; // set to half of length of each of the four geodesic arms projected onto the tangential plane at the crossing point
+    
+    eight_in_S2.close_to_crossing_point = bool(_rxaplanev.length() <= _mindistxaplane);
+    // set internal variable _current quadrant in dependence of the location of the aircraft
+    int8_t _current_quadrant = eight_in_S2.quadrant(rav);
+    // set internal variable _current segment
+    int8_t _current_segment = eight_in_S2.current_segment;
+    int8_t _next_quadrant = eight_in_S2.quadrants[(eight_in_S2.quadrant_count[eight_in_S2.current_quadrant] + eight_in_S2.orientation) % 4];
+
+
+    if(eight_in_S2.close_to_crossing_point){
+        // aircraft is too close to the crossing point
+        // disable quadrant and segment switching unless aircraft moves against orientation
+        _current_quadrant = eight_in_S2.current_quadrant;
+        _current_segment = eight_in_S2.current_segment;
+    } else {
+        // aircraft is not too close to the crossing point
+        // switching the current quadrant and current segment has to be checked and performed
+        if (eight_in_S2.current_quadrant != _current_quadrant){
+            hal.console->print("entered new quadrant: ");
+            hal.console->printf("%i\n",_current_quadrant);
+            // aircraft has entered another quadrant
+            // determine if aircraft entered the next quadrant
+            eight_in_S2.entered_next_quadrant = bool(_current_quadrant == _next_quadrant);
+            hal.console->print("new quadrant is next quadrant? ");
+            hal.console->printf("%i\n",eight_in_S2.entered_next_quadrant);
+            if (eight_in_S2.entered_next_quadrant) {
+                // aircraft has entered correct next quadrant
+                // switch to next quadrant
+                eight_in_S2.current_quadrant = _current_quadrant;
+                // after switching the quadrant the aircraft has in any case left the initial quadrant
+                eight_in_S2.in_initial_quadrant = false;
+            }
+        }
+    }
+
+    // center vector associated with the current quadrant
+    Vector3f _current_cv = eight_in_S2.centervectors[eight_in_S2.current_quadrant];
+    eight_in_S2.current_cv = _current_cv;
+    // tangent vector at the transgression point between two segments associated with the current quadrant
+    Vector3f _current_tv = eight_in_S2.tangentvectors[eight_in_S2.current_quadrant];
+    eight_in_S2.current_tv = _current_tv;
+    // position vector from center of the current turning circle to the aircraft
+    // direction of flight in the current quadrant: +1:outbound, -1:inbound
+    int8_t _current_direction = eight_in_S2.directions[eight_in_S2.current_quadrant];
+
+    Vector3f _rcav = rav - _current_cv;
+    eight_in_S2.rcav = _rcav;
+    Vector2f _rcavl(_rcav.x,_rcav.y);
+    Vector2f _current_tvl(_current_tv.x,_current_tv.y);
+    eight_in_S2.projection = _rcavl.normalized() * _current_tvl * 100.0f + 50.0f;
+    
+    // true if the current segment is the first in the quadrant: transgression point of that quadrant will be passed
+    eight_in_S2.switch_to_2nd_segment_in_quadrant  = bool(eight_in_S2.projection >=0);//bool(_rcav * _current_tv >= 0);
+    // true if the velocity vector of the aircraft is outbound / inbound  in the quadrants (0,3) / (1,2) for orientation = +1 and vice versa for orientation = -1
+    eight_in_S2.moving_matches_orientation = bool(eight_in_S2.aircraft_vel * _current_cv * _current_direction > 0);
+
+
+    if (eight_in_S2.close_to_crossing_point){
+        // aircraft is in the vicinity  to crossing point
+        // select geodesic segment with orientation best aligned with the velocity vector of the aircraft
+        //              if(vav * (etg1v - etg2v) >= 0){
+        //                  // select segment corresponding to g1
+        //                  _current_segment = 0;
+        //              } else {
+        //                  // select segment corresponding to g2
+        //                  _current_segment = 2;
+        //              }
+    } else {
+        // aircraft is not in the vicinity of the crossing point
+        // set/leave current segment to/at the first segment
+        // switch from first to second segment in the quadrant if
+        //_current_segment = eight_in_S2.firstsegments[eight_in_S2.current_quadrant];
+        if ((eight_in_S2.in_initial_quadrant || eight_in_S2.entered_next_quadrant) && eight_in_S2.switch_to_2nd_segment_in_quadrant){
+            hal.console->println("entering second segment of current quadrant.");
+            // aircraft is in the first quadrant where figure-eight pattern is initialized or aircraft has entered next quadrant and switching to second segment is required
+            // switch to second segment of the current quadrant
+            _current_segment = eight_in_S2.secondsegments[eight_in_S2.current_quadrant];
+            //current_segment = _current_segment;
+            // reset
+            eight_in_S2.entered_next_quadrant = false;
+            eight_in_S2.in_initial_quadrant = false;
+        }
+    }
+    eight_in_S2.current_quadrant = _current_quadrant;
+    eight_in_S2.current_segment = _current_segment;
 }
 
 /*
