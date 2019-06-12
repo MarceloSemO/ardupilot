@@ -35,7 +35,6 @@ public:
         QRTL          = 21,
         QAUTOTUNE     = 22,
         QACRO         = 23,
-        AWE_LOITER_ELLIPSE = 36,
         AWE_LOITER_3D = 37,
         AWE_EIGHT_SPHERE = 38
     };
@@ -451,22 +450,6 @@ protected:
 
     bool _enter() override;
     void _exit() override;
-};
-
-class ModeAWEEllipse : public Mode
-{
-public:
-
-    Number mode_number() const override { return Number::AWE_LOITER_ELLIPSE; }
-    const char *name() const override { return "AWE LOITER ELLIPSE"; }
-    const char *name4() const override { return "AWEE"; }
-
-    // methods that affect movement of the vehicle in this mode
-    void update() override;
-
-protected:
-
-    bool _enter() override;
 };
 
 class ModeAWE3D : public Mode

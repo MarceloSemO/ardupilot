@@ -509,9 +509,6 @@ void Plane::update_navigation()
         update_cruise();
         break;
 
-    case Mode::Number::AWE_LOITER_ELLIPSE:
-        update_awe_loiter_ellipse();
-        break;
     case Mode::Number::AWE_LOITER_3D:
         update_awe_loiter_3d();
         break;
