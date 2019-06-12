@@ -70,9 +70,6 @@ Mode *Plane::mode_from_mode_num(const enum Mode::Number num)
     case Mode::Number::QAUTOTUNE:
         ret = &mode_qautotune;
         break;
-    case Mode::Number::AWE_LOITER_ELLIPSE:
-        ret = &mode_aweellipse;
-        break;
     case Mode::Number::AWE_LOITER_3D:
         ret = &mode_awe3d;
         break;

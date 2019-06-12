@@ -52,7 +52,6 @@ MAV_MODE GCS_MAVLINK_Plane::base_mode() const
         // positions", which APM does not currently do
         break;
     case Mode::Number::INITIALISING:
-    case Mode::Number::AWE_LOITER_ELLIPSE:
     case Mode::Number::AWE_LOITER_3D:
     case Mode::Number::AWE_EIGHT_SPHERE:
         break;
