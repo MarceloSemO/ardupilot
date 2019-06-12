@@ -334,7 +334,6 @@ private:
     ModeQRTL mode_qrtl;
     ModeQAcro mode_qacro;
     ModeQAutotune mode_qautotune;
-    ModeAWEEllipse mode_aweellipse;
     ModeAWE3D mode_awe3d;
     ModeAWE8S mode_awe8s;
 
@@ -1357,11 +1356,9 @@ private:
     void avoid_adsb_run();
 
     // AWE Flight modes
-    void do_awe_loiter_ellipse();
     void do_awe_loiter_3d();
     void do_awe_eight_sphere();
 
-    void update_awe_loiter_ellipse();
     void update_awe_loiter_3d();    
     void update_awe_eight_sphere();
 
