@@ -1122,7 +1122,7 @@ void Plane::do_awe_loiter_3d()
     S1_in_S2.theta_rho_deg = 20.0f;
     S1_in_S2.S1_radius_cm = S1_in_S2.S2_radius_cm * sinf(radians(S1_in_S2.theta_rho_deg));
     S1_in_S2.azimuth_deg = 0.0f;
-    S1_in_S2.elevation_deg = 30.0f;
+    S1_in_S2.elevation_deg = 90.0f;
     S1_in_S2.orientation = 1;
 
     float theta = 90.0f - S1_in_S2.elevation_deg;

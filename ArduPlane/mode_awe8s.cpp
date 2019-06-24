@@ -10,4 +10,7 @@ bool ModeAWE8S::_enter()
 
 void ModeAWE8S::update()
 {
+    plane.calc_nav_roll();
+    plane.calc_nav_pitch();
+    plane.calc_throttle();
 }

@@ -55,7 +55,17 @@ public:
                                float hgt_afe,
                                float load_factor,
                                bool soaring_active) override;
-
+    
+    void update_pitch_throttle(int32_t hgt_dem_cm,
+                                    int32_t EAS_dem_cm,
+                                    enum AP_Vehicle::FixedWing::FlightStage flight_stage,
+                                    float distance_beyond_land_wp,
+                                    int32_t ptchMinCO_cd,
+                                    int16_t throttle_nudge,
+                                    float hgt_afe,
+                                    float load_factor,
+                                    int32_t segment) override;
+    
     // demanded throttle in percentage
     // should return -100 to 100, usually positive unless reverse thrust is enabled via _THRminf < 0
     int32_t get_throttle_demand(void) override {
@@ -356,6 +366,9 @@ private:
 
     // Update Demanded Pitch Angle
     void _update_pitch(void);
+
+    // Update Demanded Pitch Angle (AWE modes)
+    void _update_pitch(int32_t segment);
 
     // Initialise states and variables
     void _initialise_states(int32_t ptchMinCO_cd, float hgt_afe);
