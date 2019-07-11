@@ -301,6 +301,29 @@
  # define USE_CURRENT_ALT FALSE
 #endif
 
+#ifndef AWE_SPHERE_RADIUS_CM_DEFAULT
+ # define AWE_SPHERE_RADIUS_CM_DEFAULT 20000
+#endif
+
+#ifndef AWE_8S_THETAC_DEFAULT
+ # define AWE_8S_THETAC_DEFAULT 45.0
+#endif
+
+#ifndef AWE_8S_THETAR_DEFAULT
+ # define AWE_8S_THETAR_DEFAULT 15.0
+#endif
+
+#ifndef AWE_AZIMUTH_DEFAULT
+ # define AWE_AZIMUTH_DEFAULT 0.0
+#endif
+
+#ifndef AWE_ELEV_DEFAULT
+ # define AWE_ELEV_DEFAULT 90.0
+#endif
+
+#ifndef AWE_SIGMA_DEFAULT
+ # define AWE_SIGMA_DEFAULT 1
+#endif
 //////////////////////////////////////////////////////////////////////////////
 // Developer Items
 //

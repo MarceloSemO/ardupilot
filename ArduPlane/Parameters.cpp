@@ -1234,6 +1234,49 @@ const AP_Param::GroupInfo ParametersG2::var_info[] = {
     // @User: Advanced
     AP_GROUPINFO("DSPOILER_AILMTCH", 21, ParametersG2, crow_flap_aileron_matching, 100),
 
+
+    // @Param: AWE_SPHERE_RAD
+    // @DisplayName: Sphere Center Location
+    // @Description: Location of the Center of the Sphere the Drone flies on.
+    // @Units: cm
+    // @User: User
+    AP_GROUPINFO("AWE_SPHERE_RAD", 22, ParametersG2, awe_sphere_radius_cm, AWE_SPHERE_RADIUS_CM_DEFAULT),
+
+    // @Param: AWE_8S_THETAC
+    // @DisplayName: Angle between centers of turning segments
+    // @Description: Half of the angle between the centers of the two turning circle segments
+    // @Units: degree
+    // @User: User
+    AP_GROUPINFO("AWE_8S_THETAC", 23, ParametersG2, awe_theta_c_deg, AWE_8S_THETAC_DEFAULT),
+
+    // @Param: AWE_8S_THETAR
+    // @DisplayName: Half of the opening angle of the turning segments WRT center of the sphere.
+    // @Description: Half of the opening angle of the turning segments WRT center of the sphere.
+    // @Units: degree
+    // @User: User
+    AP_GROUPINFO("AWE_8S_THETAR", 24, ParametersG2, awe_theta_r_deg, AWE_8S_THETAR_DEFAULT),
+
+    // @Param: AWE_AZIMUTH
+    // @DisplayName: Azimuth angle of eight pattern
+    // @Description: Azimuth angle of the vector pointing from the sphere center to the crossing point of the eight pattern.
+    // @Units: degree
+    // @User: User
+    AP_GROUPINFO("AWE_AZIMUTH", 25, ParametersG2, awe_azimuth_deg, AWE_AZIMUTH_DEFAULT),
+
+    // @Param: AWE_ELEV
+    // @DisplayName: Elevation angle of eight pattern
+    // @Description: Elevation angle of the vector pointing from the sphere center to the crossing point of the eight pattern.
+    // @Units: degree
+    // @User: User
+    AP_GROUPINFO("AWE_ELEV", 26, ParametersG2, awe_elevation_deg, AWE_ELEV_DEFAULT),
+
+    // @Param: AWE_SIGMA
+    // @DisplayName: AWE_SIGMA_DEFAULT
+    // @Description: 
+    // @UValues: +1: downwards flight on geodesic and upwards flight on turning circle segments -1: upwards flight on geodesic and downwards flight on turning circle segments
+    // @User: User
+    AP_GROUPINFO("AWE_SIGMA", 27, ParametersG2, awe_orientation, AWE_SIGMA_DEFAULT),
+
     AP_GROUPEND
 };
 
