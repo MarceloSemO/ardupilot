@@ -545,6 +545,7 @@ void AP_L1_Control::update_loiter_3d(const struct Location &S2center, const Vect
     // minimal height for flying unconstrained outside the sphere
     int32_t heightmin_cm = 2000;
     // radius (half distance) between the two points of the segment lying above the minimal height
+    //TODO: Fix this properly (what is the purpose of heightmin)
     int32_t segradius_cm = sqrt(sq(S1radius)-sq(heightmin_cm));
     // vector is pointing in the direction of motion from start_loc to end_loc on the upper hemicircle (for inclination theta >0) given by orientation
     Vector2f maxv = - e1 * segradius_cm / 100.0f * orientation;
@@ -726,22 +727,18 @@ void AP_L1_Control::update_loiter_3d(const struct Location &S2center, const Vect
             _WPcircle = false;
             _bearing_error = Nu; // angle between demanded and achieved velocity vector, +ve to left of track
             _nav_bearing = 0;//atan2f(-erlv.y , -erlv.x); // bearing (radians) from AC to L1 point
-            // desired target: location of point closest to the inclined circle
-            desired_loc = S1center;
-            desired_loc.offset(env.x * S1radius / 100.0f, env.y * S1radius / 100.0f);
-            desired_loc.alt = S1center.alt - env.z * S1radius;
-
         } else {
             // loiter
             _latAccDem = latAccDemCirc;
             _WPcircle = true;
             _bearing_error = 0.0f; // bearing error (radians), +ve to left of track
             _nav_bearing = atan2f(-erlv.y , -erlv.x); // bearing (radians)from AC to L1 point
-            // desired target: point closest to the inclined circle
-            desired_loc = S1center;
-            desired_loc.offset(env.x * S1radius / 100.0f, env.y * S1radius / 100.0f);
-            desired_loc.alt = S1center.alt - env.z * S1radius;
         }
+
+        // desired target: point on the circle which is closest to the aircraft circle
+        desired_loc = S1center;
+        desired_loc.offset(env.x * S1radius / 100.0f, env.y * S1radius / 100.0f);
+        desired_loc.alt = S1center.alt - env.z * S1radius;
 
     } else {
         // ellipse is degenerate to a line with unit tangent vector -e1, normal vector e2 running between start_loc and end_loc

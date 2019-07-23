@@ -709,7 +709,7 @@ private:
     // unit normal vector of the first geodesic plane (geodesic g1: from south-west to north-east)
     // orientation of g1 = orientation
     Vector3f erg1v; // = Rm * Vector3f(-cos_chihalf, sin_chihalf, 0.0f);
-    // unit normal vector of the second geodesic segment (geodesic g2: from south-east to north-west)
+    // unit normal vector of the second geodesic plane (geodesic g2: from south-east to north-west)
     // orientation of g2 = orientation
     Vector3f erg2v; // = Rm * Vector3f(cos_chihalf, sin_chihalf, 0.0f);
 
@@ -740,13 +740,11 @@ private:
     // for given quadrant, the counter is obtained as quadrant_count[quadrant]
     int8_t quadrant_count[4] = {0, 1, 3, 2};
     // array of turning circle center vectors labeled by the quadrant number
-    Vector3f centervectors[4]; // = {erc1v * dist_cm / 100.0f, erc1v * dist_cm / 100.0f, erc2v * dist_cm / 100.0f, erc2v * dist_cm / 100.0f};
+    Vector3f centervectors[4]; 
     // array of unit tangent vectors at the transgression points of the segments labeled by the quadrant number
-    Vector3f tangentvectors[4]; // = //{etg1c1v, etc1g2v, etc2g1v, etg2c2v};
-    // array of directions: +1:outbound -1:inbound labeled by the quadrant       // array of unit tangent vectors at the transgression points of the segments labeled by the quadrant counter (not the quadrant number)
+    Vector3f tangentvectors[4]; 
     // array of directions: +1:outbound -1:inbound labeled by the quadrant number
-    int8_t norientation = -orientation;
-    int8_t directions[4] = {orientation, norientation, norientation, orientation};
+    int8_t directions[4];
     // array of numbers of the first segment in each quadrant for orientation = +1 and second segment in each quadrant for orientation = -1 labeled by the quadrant number
     int8_t firstsegments[4] = {0, 1, 3, 2};
     // array of numbers of the second segment in each quadrant for orientation = +1 and first segment in each quadrant for orientation = -1 labeled by the quadrant number
@@ -806,7 +804,7 @@ private:
         // north or south
         if (_rxaplanev * ethetaxv >= 0) {_current_quadrant = -2;} else {_current_quadrant = -1;}
         // east or west
-        if (_rxaplanev * epsixv >= 0) {_current_quadrant = _current_quadrant + 2;} else {_current_quadrant = -_current_quadrant + 1;};
+        if (_rxaplanev * epsixv >= 0) {_current_quadrant += 2;} else {_current_quadrant = -_current_quadrant + 1;};
         // current_quadrant is set to integer 0,1,2,3, where: NE:0, SE:1, SW:2, NW:3
         return _current_quadrant;
     }
