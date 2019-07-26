@@ -1118,12 +1118,12 @@ bool Plane::verify_loiter_heading(bool init)
 void Plane::do_awe_loiter_3d()
 {
     S1_in_S2.S2_loc = home;
-    S1_in_S2.S2_radius_cm = 24000;
-    S1_in_S2.theta_rho_deg = 20.0f;
+    S1_in_S2.S2_radius_cm = g2.awe_sphere_radius_cm;
+    S1_in_S2.theta_rho_deg = g2.awe_3d_theta_rho_deg;
     S1_in_S2.S1_radius_cm = S1_in_S2.S2_radius_cm * sinf(radians(S1_in_S2.theta_rho_deg));
-    S1_in_S2.azimuth_deg = 0.0f;
-    S1_in_S2.elevation_deg = 90.0f;
-    S1_in_S2.orientation = 1;
+    S1_in_S2.azimuth_deg = g2.awe_azimuth_deg;
+    S1_in_S2.elevation_deg = g2.awe_elevation_deg;
+    S1_in_S2.orientation = g2.awe_orientation;
 
     float theta = 90.0f - S1_in_S2.elevation_deg;
 
@@ -1140,7 +1140,7 @@ void Plane::do_awe_eight_sphere()
     eight_in_S2.S2_loc = home; // location of the center of the S2
     eight_in_S2.S2_radius_cm = g2.awe_sphere_radius_cm; // radius of the S2 in cm
     eight_in_S2.theta_c_deg = g2.awe_theta_c_deg; // half of the angle between the centers of the two turning circle segments, range: [0,90] degrees
-    eight_in_S2.theta_r_deg = g2.awe_theta_r_deg; // opening angle of the cone with tip at S2_loc and base given by the turning circle, range: [0,90-theta_c_deg] degrees in order to guarantee that the sweeping angle between the two apices is less than 180 deg.
+    eight_in_S2.theta_r_deg = g2.awe_theta_8s_r_deg; // opening angle of the cone with tip at S2_loc and base given by the turning circle, range: [0,90-theta_c_deg] degrees in order to guarantee that the sweeping angle between the two apices is less than 180 deg.
     eight_in_S2.azimuth_deg = g2.awe_azimuth_deg; // azimuth angle of the vector pointing from S2_loc to the crossing point of the figure-eight pattern, range: [0,360]
     eight_in_S2.elevation_deg = g2.awe_elevation_deg; // inclination angle of the vector pointing from S2_loc to the crossing point of the figure-eight pattern, range [0,90]
     eight_in_S2.orientation = g2.awe_orientation; // orientation of the figure-eight pattern: +1: downwards flight on geodesic, upwards flight on turning circle segments
@@ -1191,6 +1191,7 @@ void Plane::do_awe_eight_sphere()
     // rotation matrix that yields the vectors of the figure_eight pattern with crossing point in the direction erxv
     // from those of the figure-eight pattern with crossing point at erv = (0,0,-1) and turning circle centers aligned with the east axis
     eight_in_S2.Rm = Matrix3f(eight_in_S2.ethetaxv, eight_in_S2.epsixv, -eight_in_S2.erxv);
+    eight_in_S2.Rm.transpose();
     // vector pointing from S2_loc to the crossing point
     eight_in_S2.rxv = eight_in_S2.erxv * eight_in_S2.dist_cm / 100.0f;
 
@@ -1228,24 +1229,29 @@ void Plane::do_awe_eight_sphere()
     eight_in_S2.etg2xv = eight_in_S2.Rm * Vector3f(eight_in_S2.sin_chihalf, -eight_in_S2.cos_chihalf, 0.0f) * eight_in_S2.orientation;
 
 
-     // array of turning circle center vectors labeled by the quadrant number
-     eight_in_S2.centervectors[0] = eight_in_S2.erc1v * eight_in_S2.dist_cm / 100.0f;
-     eight_in_S2.centervectors[1] = eight_in_S2.erc1v * eight_in_S2.dist_cm / 100.0f;
-     eight_in_S2.centervectors[2] = eight_in_S2.erc2v * eight_in_S2.dist_cm / 100.0f;
-     eight_in_S2.centervectors[3] = eight_in_S2.erc2v * eight_in_S2.dist_cm / 100.0f;
-      // array of unit tangent vectors at the transgression points of the segments labeled by the quadrant number
-     eight_in_S2.tangentvectors[0] = eight_in_S2.etg1c1v;
-     eight_in_S2.tangentvectors[1] = eight_in_S2.etc1g2v;
-     eight_in_S2.tangentvectors[2] = eight_in_S2.etc2g1v;
-     eight_in_S2.tangentvectors[3] = eight_in_S2.etg2c2v;
+    // array of directions: +1:outbound -1:inbound
+    eight_in_S2.directions[0] = eight_in_S2.orientation;
+    eight_in_S2.directions[1] = - eight_in_S2.orientation;
+    eight_in_S2.directions[2] = - eight_in_S2.orientation;
+    eight_in_S2.directions[3] = eight_in_S2.orientation;
+
+    // array of turning circle center vectors labeled by the quadrant number
+    eight_in_S2.centervectors[0] = eight_in_S2.erc1v * eight_in_S2.dist_cm / 100.0f;
+    eight_in_S2.centervectors[1] = eight_in_S2.erc1v * eight_in_S2.dist_cm / 100.0f;
+    eight_in_S2.centervectors[2] = eight_in_S2.erc2v * eight_in_S2.dist_cm / 100.0f;
+    eight_in_S2.centervectors[3] = eight_in_S2.erc2v * eight_in_S2.dist_cm / 100.0f;
+    // array of unit tangent vectors at the transgression points of the segments labeled by the quadrant number
+    eight_in_S2.tangentvectors[0] = eight_in_S2.etg1c1v;
+    eight_in_S2.tangentvectors[1] = eight_in_S2.etc1g2v;
+    eight_in_S2.tangentvectors[2] = eight_in_S2.etc2g1v;
+    eight_in_S2.tangentvectors[3] = eight_in_S2.etg2c2v;
 
 
-     eight_in_S2.in_initial_quadrant = true; // has to be set to true in order to enable segment switching in the initial quadrant
-     eight_in_S2.entered_next_quadrant = true;
-    // set current quadrant to a value that is not 0,1,2,3 such that it is altered in the initialization
-    // eight_in_S2.current_quadrant = 4;
-    //ahrs.get_position(eight_in_S2.aircraft_loc);
-    eight_in_S2.current_quadrant = 3; //eight_in_S2.quadrant(location_3d_diff_NED(eight_in_S2.S2_loc, eight_in_S2.aircraft_loc));
+    eight_in_S2.in_initial_quadrant = true; // has to be set to true in order to enable segment switching in the initial quadrant
+    eight_in_S2.entered_next_quadrant = true;
+    // determine current quadrant value from current aircraft position
+    ahrs.get_position(eight_in_S2.aircraft_loc);
+    eight_in_S2.current_quadrant =  eight_in_S2.quadrant(eight_in_S2.S2_loc.get_distance_NED(eight_in_S2.aircraft_loc));
     eight_in_S2.current_segment = 0; // sets the start segment when eight_sphere is initialized
                                      // and the entry segment if no segment switching occurs because the aircraft is located in the vicinity of the crossing point defined by _mindistxaplane
 
