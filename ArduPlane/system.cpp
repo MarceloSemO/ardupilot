@@ -241,6 +241,12 @@ void Plane::startup_ground(void)
 bool Plane::set_mode(Mode &new_mode, const mode_reason_t reason)
 {
     if (control_mode == &new_mode) {
+        if(control_mode == &plane.mode_awe3d){
+            plane.do_awe_loiter_3d();
+        }
+        if(control_mode == &plane.mode_awe8s){
+            plane.do_awe_eight_sphere();
+        }
         // don't switch modes if we are already in the correct mode.
         return true;
     }
