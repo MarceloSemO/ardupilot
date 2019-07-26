@@ -1168,11 +1168,11 @@ void Plane::do_awe_eight_sphere()
     eight_in_S2.cos_theta_c = cosf(radians(eight_in_S2.theta_c_deg));
     eight_in_S2.sin_theta_c = sinf(radians(eight_in_S2.theta_c_deg));
     // trigonometric functions of half of the crossing angle
-    eight_in_S2.cos_chihalf = sqrt(1 - sq(eight_in_S2.sin_theta_r/eight_in_S2.sin_theta_c));
-    eight_in_S2.sin_chihalf = sqrt(1 - sq(eight_in_S2.cos_chihalf));
+    eight_in_S2.cos_chihalf = sqrtf(1 - sq(eight_in_S2.sin_theta_r/eight_in_S2.sin_theta_c));
+    eight_in_S2.sin_chihalf = sqrtf(1 - sq(eight_in_S2.cos_chihalf));
     // trigonometric functions of half of the sweeping angle of the geodesic segments
     eight_in_S2.cos_theta_0 = eight_in_S2.cos_theta_c/eight_in_S2.cos_theta_r;
-    eight_in_S2.sin_theta_0 = sqrt(1 - sq(eight_in_S2.cos_theta_0));
+    eight_in_S2.sin_theta_0 = sqrtf(1 - sq(eight_in_S2.cos_theta_0));
 
 
     // turning circle segments of the figure-eight pattern: circle radius, distance from origin
