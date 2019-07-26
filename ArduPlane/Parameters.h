@@ -565,13 +565,14 @@ public:
     AP_Int8 crow_flap_options;
     AP_Int8 crow_flap_aileron_matching;
 
-    // AWE eight sphere parameters
+    // AWE loiter 3D and eight sphere parameters
     AP_Int32 awe_sphere_radius_cm;
     AP_Float awe_theta_c_deg;
-    AP_Float awe_theta_r_deg;
+    AP_Float awe_theta_8s_r_deg;
     AP_Float awe_azimuth_deg;
     AP_Float awe_elevation_deg;
     AP_Int8 awe_orientation;
+    AP_Float awe_3d_theta_rho_deg;
 };
 
 extern const AP_Param::Info var_info[];

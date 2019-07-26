@@ -1254,7 +1254,7 @@ const AP_Param::GroupInfo ParametersG2::var_info[] = {
     // @Description: Half of the opening angle of the turning segments WRT center of the sphere.
     // @Units: degree
     // @User: User
-    AP_GROUPINFO("AWE_8S_THETAR", 24, ParametersG2, awe_theta_r_deg, AWE_8S_THETAR_DEFAULT),
+    AP_GROUPINFO("AWE_8S_THETAR", 24, ParametersG2, awe_theta_8s_r_deg, AWE_8S_THETAR_DEFAULT),
 
     // @Param: AWE_AZIMUTH
     // @DisplayName: Azimuth angle of eight pattern
@@ -1276,7 +1276,14 @@ const AP_Param::GroupInfo ParametersG2::var_info[] = {
     // @UValues: +1: downwards flight on geodesic and upwards flight on turning circle segments -1: upwards flight on geodesic and downwards flight on turning circle segments
     // @User: User
     AP_GROUPINFO("AWE_SIGMA", 27, ParametersG2, awe_orientation, AWE_SIGMA_DEFAULT),
-
+    
+    // @Param: AWE_L3D_THETA_RHO
+    // @DisplayName: Circle Opening Angle
+    // @Description: Half of the opening angle of the cone with tip at the center of the sphere and the circle diameter as basis.
+    // @Units: degree
+    // @User: User
+    AP_GROUPINFO("AWE_3D_THETA_RHO", 28, ParametersG2, awe_3d_theta_rho_deg, AWE_3D_THETA_RHO_DEAULT),
+    
     AP_GROUPEND
 };
 

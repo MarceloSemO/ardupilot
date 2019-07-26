@@ -1118,12 +1118,12 @@ bool Plane::verify_loiter_heading(bool init)
 void Plane::do_awe_loiter_3d()
 {
     S1_in_S2.S2_loc = home;
-    S1_in_S2.S2_radius_cm = 24000;
-    S1_in_S2.theta_rho_deg = 20.0f;
+    S1_in_S2.S2_radius_cm = g2.awe_sphere_radius_cm.get();
+    S1_in_S2.theta_rho_deg = g2.awe_3d_theta_rho_deg.get();
     S1_in_S2.S1_radius_cm = S1_in_S2.S2_radius_cm * sinf(radians(S1_in_S2.theta_rho_deg));
-    S1_in_S2.azimuth_deg = 0.0f;
-    S1_in_S2.elevation_deg = 90.0f;
-    S1_in_S2.orientation = 1;
+    S1_in_S2.azimuth_deg = g2.awe_azimuth_deg.get();
+    S1_in_S2.elevation_deg = g2.awe_elevation_deg.get();
+    S1_in_S2.orientation = g2.awe_orientation.get();
 
     float theta = 90.0f - S1_in_S2.elevation_deg;
 
@@ -1140,7 +1140,7 @@ void Plane::do_awe_eight_sphere()
     eight_in_S2.S2_loc = home; // location of the center of the S2
     eight_in_S2.S2_radius_cm = g2.awe_sphere_radius_cm.get(); // radius of the S2 in cm
     eight_in_S2.theta_c_deg = g2.awe_theta_c_deg.get(); // half of the angle between the centers of the two turning circle segments, range: [0,90] degrees
-    eight_in_S2.theta_r_deg = g2.awe_theta_r_deg.get(); // opening angle of the cone with tip at S2_loc and base given by the turning circle, range: [0,90-theta_c_deg] degrees in order to guarantee that the sweeping angle between the two apices is less than 180 deg.
+    eight_in_S2.theta_r_deg = g2.awe_theta_8s_r_deg.get(); // opening angle of the cone with tip at S2_loc and base given by the turning circle, range: [0,90-theta_c_deg] degrees in order to guarantee that the sweeping angle between the two apices is less than 180 deg.
     eight_in_S2.azimuth_deg = g2.awe_azimuth_deg.get(); // azimuth angle of the vector pointing from S2_loc to the crossing point of the figure-eight pattern, range: [0,360]
     eight_in_S2.elevation_deg = g2.awe_elevation_deg.get(); // inclination angle of the vector pointing from S2_loc to the crossing point of the figure-eight pattern, range [0,90]
     eight_in_S2.orientation = g2.awe_orientation.get(); // orientation of the figure-eight pattern: +1: downwards flight on geodesic, upwards flight on turning circle segments
