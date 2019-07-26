@@ -324,6 +324,10 @@
 #ifndef AWE_SIGMA_DEFAULT
  # define AWE_SIGMA_DEFAULT 1
 #endif
+
+#ifndef AWE_3D_THETA_RHO_DEFAULT
+ # define AWE_3D_THETA_RHO_DEAULT 22.5
+#endif
 //////////////////////////////////////////////////////////////////////////////
 // Developer Items
 //
