@@ -1133,6 +1133,11 @@ void Plane::do_awe_loiter_3d()
     float sin_theta = sinf(radians(theta));
 
     S1_in_S2.ercv = Vector3f(sin_theta * cos_psi, sin_theta * sin_psi, -cos_theta);
+
+    hal.console->println("Initialization of LOITER 3D completed");
+    logger.Write("TSTT", "info", "I", 1);
+
+
 }
 
 void Plane::do_awe_eight_sphere()
