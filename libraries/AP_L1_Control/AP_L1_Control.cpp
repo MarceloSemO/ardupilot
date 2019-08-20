@@ -518,7 +518,7 @@ void AP_L1_Control::update_loiter_3d(const struct Location &S2center, const Vect
     S1center.alt = S1center.alt - ercv.z * D;
     // trigonometric functions of the polar angle
     const float cos_theta = -ercv.z;
-    const float sin_theta = sqrt(1.0f - sq(cos_theta));
+    const float sin_theta = sqrtf(1.0f - sq(cos_theta));
       
     // calculate desired position on ellipse (= lateral projection of the circle) with major and minor principal axes along unit vectors e1 and e2, respectively
     // position vector of the aircraft parameterized as: posalv(phia) = ra(cos(phia)e1 + cos(theta)sin(phia)e2)
@@ -546,7 +546,7 @@ void AP_L1_Control::update_loiter_3d(const struct Location &S2center, const Vect
     int32_t heightmin_cm = 2000;
     // radius (half distance) between the two points of the segment lying above the minimal height
     //TODO: Fix this properly (what is the purpose of heightmin)
-    int32_t segradius_cm = sqrt(sq(S1radius)-sq(heightmin_cm));
+    int32_t segradius_cm = sqrtf(sq(S1radius)-sq(heightmin_cm));
     // vector is pointing in the direction of motion from start_loc to end_loc on the upper hemicircle (for inclination theta >0) given by orientation
     Vector2f maxv = - e1 * segradius_cm / 100.0f * orientation;
     struct Location start_loc = S1center;
@@ -647,7 +647,7 @@ void AP_L1_Control::update_loiter_3d(const struct Location &S2center, const Vect
     if (!is_zero(cos_theta)){
         // non-degenerate ellipse
         // distance of the aircraft from the center of the ellipse in meter
-        const float ra = sqrt(sq(posal1) + sq(1/cos_theta * posal2));
+        const float ra = sqrtf(sq(posal1) + sq(1/cos_theta * posal2));
 
         const float rho = ra - S1radius/100.0f;
         // trigonometric functions of curve parameter phia at the aircraft's position
@@ -661,7 +661,7 @@ void AP_L1_Control::update_loiter_3d(const struct Location &S2center, const Vect
         const float cos_phiapdphi = cos_phia * cos_dphi - sin_phia * sin_dphi;
         const float sin_phiapdphi = cos_phia * sin_dphi + sin_phia * cos_dphi;
         // distance of the aircraft from the ellipse;
-        dae = rho * cos_theta /sqrt(1 - sq(sin_theta * cos_phia));
+        dae = rho * cos_theta /sqrtf(1 - sq(sin_theta * cos_phia));
         // position vector of point of the ellipse closest to the aircraft's position relative to center_loc
         const Vector2f telv = Vector2f(-e1 * sin_phiapdphi + e2 * cos_theta * cos_phiapdphi * orientation);
         const float telvnorm = telv.length();
@@ -765,7 +765,7 @@ void AP_L1_Control::update_loiter_3d(const struct Location &S2center, const Vect
         } else {
             capture_loc = S1center;
             capture_loc.offset(e1.x * posal1, e1.y * posal1);
-            capture_loc.alt = capture_loc.alt + sqrt(sq(S1radius)-sq(posal1* 100.0f));
+            capture_loc.alt = capture_loc.alt + sqrtf(sq(S1radius)-sq(posal1* 100.0f));
         }
 
         // redefine radial vector in case of the degenerate ellipse as the vector on the line segment closest to the aircraft
