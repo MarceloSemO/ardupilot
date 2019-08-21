@@ -1,7 +1,10 @@
 #include <AP_HAL/AP_HAL.h>
 #include "AP_L1_Control.h"
+#include <AP_Logger/AP_Logger.h>
 
 extern const AP_HAL::HAL& hal;
+
+
 
 // table of user settable parameters
 const AP_Param::GroupInfo AP_L1_Control::var_info[] = {
@@ -504,6 +507,7 @@ void AP_L1_Control::update_loiter_3d(const struct Location &S2center, const Vect
 {
 
     // CALCULATE DERIVED PARAMETERS FROM ARGUMENT LIST OF THE FUNCTION
+    AP::logger().Write("TTT2", "upd_mark_3d", "I", "1");
 
     // cosine and sine of half of opening angle
     const float cos_theta_rho = cosf(radians(theta_rho));
@@ -519,7 +523,8 @@ void AP_L1_Control::update_loiter_3d(const struct Location &S2center, const Vect
     // trigonometric functions of the polar angle
     const float cos_theta = -ercv.z;
     const float sin_theta = sqrtf(1.0f - sq(cos_theta));
-      
+    AP::logger().Write("TTT2", "upd_mark_3d", "I", "2");
+
     // calculate desired position on ellipse (= lateral projection of the circle) with major and minor principal axes along unit vectors e1 and e2, respectively
     // position vector of the aircraft parameterized as: posalv(phia) = ra(cos(phia)e1 + cos(theta)sin(phia)e2)
     
@@ -541,6 +546,8 @@ void AP_L1_Control::update_loiter_3d(const struct Location &S2center, const Vect
     // This can be accomplished by a 90 degree rotation: e1 -> e2, e2 -> -e1 which preserves the orientation
     const Vector2f e1(-sin_psi,cos_psi); //unit vector pointing along the major principal axis; directed towards east for psi = 0
     const Vector2f e2(-e1.y,e1.x); //unit vector pointing along the minor principal axis; directed towards south for psi = 0
+
+    AP::logger().Write("TTT2", "upd_mark_3d", "I", "3");
 
     // minimal height for flying unconstrained outside the sphere
     int32_t heightmin_cm = 2000;
@@ -572,6 +579,7 @@ void AP_L1_Control::update_loiter_3d(const struct Location &S2center, const Vect
     // aircraft's position vector (direction of ideal (straight) tether) from the center of the sphere
     Vector3f s2ctoav(S2center.get_distance_NED(_current_loc));
 
+    AP::logger().Write("TTT2", "upd_mark_3d", "I", "4");
 
 
     // aircraft's position vector from the center of the circle
@@ -595,6 +603,8 @@ void AP_L1_Control::update_loiter_3d(const struct Location &S2center, const Vect
     Vector2f velalv(velav.x,velav.y);
     // lateral velocity; protect against becoming zero
     float velal = MAX(velalv.length(), 1.0f);
+
+    AP::logger().Write("TTT2", "upd_mark_3d", "I", "5");
 
 
     // unit tangent vector at point on a circle which is closest to the aircraft; lies in the plane containing the circle
@@ -627,6 +637,7 @@ void AP_L1_Control::update_loiter_3d(const struct Location &S2center, const Vect
     // Calculate L1 gain required for specified damping (used during waypoint capture)
     const float K_L1 = 4.0f * _L1_damping * _L1_damping;
 
+    AP::logger().Write("TTT2", "upd_mark_3d", "I", "6");
 
     // NAVIGATION ON THE LATERAL PROJECTION OF THE INCLINED CICRLE ((DEGENERATE) ELLIPSE)
 
@@ -851,4 +862,6 @@ void AP_L1_Control::update_loiter_3d(const struct Location &S2center, const Vect
             desired_loc = capture_loc;
         }
     }
+    AP::logger().Write("TTT2", "upd_mark_3d", "I", "7");
+
 }

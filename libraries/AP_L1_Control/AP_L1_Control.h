@@ -20,6 +20,7 @@
 #include <AP_SpdHgtControl/AP_SpdHgtControl.h>
 #include <AP_Common/Location.h>
 
+
 class AP_L1_Control : public AP_Navigation {
 public:
     AP_L1_Control(AP_AHRS &ahrs, const AP_SpdHgtControl *spdHgtControl)

@@ -1133,9 +1133,10 @@ void Plane::do_awe_loiter_3d()
     float sin_theta = sinf(radians(theta));
 
     S1_in_S2.ercv = Vector3f(sin_theta * cos_psi, sin_theta * sin_psi, -cos_theta);
+//    logger.Write("TEST","init?,s2_rad","Ii",1,S1_in_S2.S2_radius_cm);
 
+    logger.Write("TTTT", "Init,s2_rad,theta_rho,s1_rad,azim,elev,cos_psi,cos_theta", "Iififfff", 1, S1_in_S2.S2_radius_cm, S1_in_S2.theta_rho_deg, S1_in_S2.S1_radius_cm, S1_in_S2.azimuth_deg, S1_in_S2.elevation_deg,cos_psi,cos_theta);
     hal.console->println("Initialization of LOITER 3D completed");
-    logger.Write("TSTT", "info", "I", 1);
 
 
 }
@@ -1150,6 +1151,10 @@ void Plane::do_awe_eight_sphere()
     eight_in_S2.elevation_deg = g2.awe_elevation_deg.get(); // inclination angle of the vector pointing from S2_loc to the crossing point of the figure-eight pattern, range [0,90]
     eight_in_S2.orientation = g2.awe_orientation.get(); // orientation of the figure-eight pattern: +1: downwards flight on geodesic, upwards flight on turning circle segments
                                  //                                          -1: upwards flight on geodesic, downwards flight on turning circle segments
+
+    logger.Write("TTAT", "s2_rad,theta_c,theta_r,azim,elev,orient", "iffffb", eight_in_S2.S2_radius_cm, eight_in_S2.theta_c_deg, eight_in_S2.theta_r_deg, eight_in_S2.azimuth_deg, eight_in_S2.elevation_deg, eight_in_S2.orientation);
+
+
 
     // the four segments are labeled by integers 0,1,2,3 in dependence of orientation
     // for orientation of the figure-eight pattern: +1: segment sequence is: geodesic_1 -> circle_1 -> geodesic_2 -> circle_2
@@ -1259,6 +1264,7 @@ void Plane::do_awe_eight_sphere()
     eight_in_S2.current_quadrant =  eight_in_S2.quadrant(eight_in_S2.S2_loc.get_distance_NED(eight_in_S2.aircraft_loc));
     eight_in_S2.current_segment = 0; // sets the start segment when eight_sphere is initialized
                                      // and the entry segment if no segment switching occurs because the aircraft is located in the vicinity of the crossing point defined by _mindistxaplane
+    logger.Write("TTBT", " current_quadrant", "b", eight_in_S2.current_quadrant);
 
     hal.console->println("Initialization of EIGHT-SPHERE completed");
 }
