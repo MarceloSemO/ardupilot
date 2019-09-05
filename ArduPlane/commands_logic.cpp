@@ -1119,13 +1119,13 @@ void Plane::do_awe_loiter_3d()
 {
     S1_in_S2.S2_loc = home;
     S1_in_S2.S2_radius_cm = g2.awe_sphere_radius_cm.get();
-    S1_in_S2.theta_rho_deg = g2.awe_3d_theta_rho_deg.get();
+    S1_in_S2.theta_rho_deg = g2.awe_3d_theta_rho_deg.get(); //opening angle of loiter circle
     S1_in_S2.S1_radius_cm = S1_in_S2.S2_radius_cm * sinf(radians(S1_in_S2.theta_rho_deg));
     S1_in_S2.azimuth_deg = g2.awe_azimuth_deg.get();
     S1_in_S2.elevation_deg = g2.awe_elevation_deg.get();
     S1_in_S2.orientation = g2.awe_orientation.get();
 
-    float theta = 90.0f - S1_in_S2.elevation_deg;
+    float theta = 90.0f - S1_in_S2.elevation_deg; // tilt of elevation vector against z-axis
 
     float cos_psi = cosf(radians(S1_in_S2.azimuth_deg));
     float sin_psi = sinf(radians(S1_in_S2.azimuth_deg));
@@ -1135,7 +1135,7 @@ void Plane::do_awe_loiter_3d()
     S1_in_S2.ercv = Vector3f(sin_theta * cos_psi, sin_theta * sin_psi, -cos_theta);
 //    logger.Write("TEST","init?,s2_rad","Ii",1,S1_in_S2.S2_radius_cm);
 
-    logger.Write("TTTT", "Init,s2_rad,theta_rho,s1_rad,azim,elev,cos_psi,cos_theta", "Iififfff", 1, S1_in_S2.S2_radius_cm, S1_in_S2.theta_rho_deg, S1_in_S2.S1_radius_cm, S1_in_S2.azimuth_deg, S1_in_S2.elevation_deg,cos_psi,cos_theta);
+    logger.Write("ZDL3", "Init,s2_rad,theta_rho,s1_rad,azim,elev,cos_psi,cos_theta", "Iififfff", 1, S1_in_S2.S2_radius_cm, S1_in_S2.theta_rho_deg, S1_in_S2.S1_radius_cm, S1_in_S2.azimuth_deg, S1_in_S2.elevation_deg,cos_psi,cos_theta);
     hal.console->println("Initialization of LOITER 3D completed");
 
 
@@ -1192,18 +1192,19 @@ void Plane::do_awe_eight_sphere()
     eight_in_S2.dist_cm = eight_in_S2.S2_radius_cm * eight_in_S2.cos_theta_r;
 
     // crossing point of the figure-eight pattern: coordinate frame, rotation matrix, position vector
-    // unit vector pointing from S2_loc to the crossing point of the figure-eight pattern
-    eight_in_S2.erxv = Vector3f(eight_in_S2.sin_theta * eight_in_S2.cos_psi, eight_in_S2.sin_theta * eight_in_S2.sin_psi, -eight_in_S2.cos_theta );
     // unit vector of the tangential plane at the crossing point in polar direction
     eight_in_S2.ethetaxv = Vector3f(eight_in_S2.cos_theta * eight_in_S2.cos_psi, eight_in_S2.cos_theta * eight_in_S2.sin_psi, eight_in_S2.sin_theta);
     // unit vector of the tangential plane at the crossing point in azimuthal direction
     eight_in_S2.epsixv = Vector3f(-eight_in_S2.sin_psi, eight_in_S2.cos_psi, 0);
+    // unit vector pointing from S2_loc to the crossing point of the figure-eight pattern
+    eight_in_S2.erxv = Vector3f(eight_in_S2.sin_theta * eight_in_S2.cos_psi, eight_in_S2.sin_theta * eight_in_S2.sin_psi, -eight_in_S2.cos_theta );
     // rotation matrix that yields the vectors of the figure_eight pattern with crossing point in the direction erxv
     // from those of the figure-eight pattern with crossing point at erv = (0,0,-1) and turning circle centers aligned with the east axis
     eight_in_S2.Rm = Matrix3f(eight_in_S2.ethetaxv, eight_in_S2.epsixv, -eight_in_S2.erxv);
     eight_in_S2.Rm.transpose();
     // vector pointing from S2_loc to the crossing point
     eight_in_S2.rxv = eight_in_S2.erxv * eight_in_S2.dist_cm / 100.0f;
+    
 
     // figure-eight pattern from four circle segments defined via four planes in canonical orientation
     // canonical orientation (at azimuth_deg = 0, elevation_deg = 90 in the NED coordinate system): crossing point is upwards (in the (0,0,-1)-direction) from S2_loc; turning circle centers are aligned along east axis

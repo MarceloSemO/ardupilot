@@ -262,7 +262,7 @@ void Plane::update_awe_loiter_3d()
 
 void Plane::update_awe_eight_sphere()
 {
-    logger.Write("TTT1", "update_marker", "I", "1");
+    logger.Write("TTT1", "update_marker", "I", 1);
 
     Vector3f current_ercv = eight_in_S2.current_ercv();
     int32_t current_theta_r = eight_in_S2.current_theta_r();
@@ -359,7 +359,7 @@ void Plane::update_awe_eight_sphere()
     eight_in_S2.current_segment = _current_segment;
 
 
-    logger.Write("TTT1", "update_marker", "I", "2");
+    logger.Write("TTT1", "update_marker", "I", 2);
 }
 
 /*
