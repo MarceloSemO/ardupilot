@@ -957,6 +957,13 @@ struct PACKED log_RPM {
     float rpm2;
 };
 
+struct PACKED log_TetherTension {
+    LOG_PACKET_HEADER;
+    uint64_t time_us;
+    float voltage;
+
+};
+
 struct PACKED log_Rate {
     LOG_PACKET_HEADER;
     uint64_t time_us;
@@ -1639,6 +1646,7 @@ enum LogMessages : uint8_t {
     LOG_IMUDT3_MSG,
     LOG_ORGN_MSG,
     LOG_RPM_MSG,
+    LOG_TetherTension_MSG,
     LOG_GPA_MSG,
     LOG_GPA2_MSG,
     LOG_GPAB_MSG,

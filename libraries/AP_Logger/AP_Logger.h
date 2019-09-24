@@ -11,6 +11,7 @@
 #include <AP_Mission/AP_Mission.h>
 #include <AP_BattMonitor/AP_BattMonitor.h>
 #include <AP_RPM/AP_RPM.h>
+#include <AP_TetherTension/AP_TetherTension_Analog.h>
 #include <AP_Logger/LogStructure.h>
 #include <AP_Motors/AP_Motors.h>
 #include <AP_Rally/AP_Rally.h>
@@ -262,6 +263,7 @@ public:
                                const AP_Mission::Mission_Command &cmd);
     void Write_Origin(uint8_t origin_type, const Location &loc);
     void Write_RPM(const AP_RPM &rpm_sensor);
+    void Write_TetherTension(AP_TetherTension_Analog &tethertension_sensor);
     void Write_Rate(const AP_AHRS_View *ahrs,
                         const AP_Motors &motors,
                         const AC_AttitudeControl &attitude_control,

@@ -1068,6 +1068,10 @@ const AP_Param::Info Plane::var_info[] = {
     // @Path: ../libraries/AP_RPM/AP_RPM.cpp
     GOBJECT(rpm_sensor, "RPM", AP_RPM),
 
+    // @Group: TetherTension
+    // @Path: ../libraries/AP_TetherTension/AP_TetherTension_Analog.cpp
+    GOBJECT(tethertension_sensor, "TetherTension_Analog", AP_TetherTension_Analog),
+
     // @Group: RSSI_
     // @Path: ../libraries/AP_RSSI/AP_RSSI.cpp
     GOBJECT(rssi, "RSSI_",  AP_RSSI),

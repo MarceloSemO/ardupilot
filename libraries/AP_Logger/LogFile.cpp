@@ -1556,6 +1556,16 @@ void AP_Logger::Write_RPM(const AP_RPM &rpm_sensor)
     WriteBlock(&pkt, sizeof(pkt));
 }
 
+void AP_Logger::Write_TetherTension(AP_TetherTension_Analog &tethertension_sensor)
+{
+    struct log_TetherTension pkt = {
+        LOG_PACKET_HEADER_INIT(LOG_TetherTension_MSG),
+        time_us     : AP_HAL::micros64(),
+        voltage     : tethertension_sensor.get_tethertension()
+    };
+    WriteBlock(&pkt, sizeof(pkt));
+}
+
 // Write a rate packet
 void AP_Logger::Write_Rate(const AP_AHRS_View *ahrs,
                                      const AP_Motors &motors,
