@@ -140,7 +140,6 @@ public:
         k_param_land_abort_throttle_enable, // unused - moved to AP_Landing
         k_param_rssi = 97,
         k_param_rpm_sensor,
-        k_param_tethertension_sensor,
         k_param_parachute,
         k_param_arming = 100,
         k_param_parachute_channel,
@@ -344,10 +343,16 @@ public:
         k_param_dspoiler_rud_rate,
 
         k_param_logger = 253, // Logging Group
+        
+
+        
 
         // 254,255: reserved
+
+        k_param_tethertension_sensor=256,
     };
 
+    AP_Int16 tethertension_sensor;
     AP_Int16 format_version;
 
     // Telemetry control
