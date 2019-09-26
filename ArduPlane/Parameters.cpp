@@ -1068,14 +1068,9 @@ const AP_Param::Info Plane::var_info[] = {
     // @Path: ../libraries/AP_RPM/AP_RPM.cpp
     GOBJECT(rpm_sensor, "RPM", AP_RPM),
 
-    // @Param: GROUND_STEER_ALT
-    // @DisplayName: Ground steer altitude
-    // @Description: Altitude at which to use the ground steering controller on the rudder. If non-zero then the STEER2SRV controller will be used to control the rudder for altitudes within this limit of the home altitude.
-    // @Units: m
-    // @Range: -100 100
-    // @Increment: 0.1
-    // @User: Standard
-    GSCALAR(tethertension_sensor,         "integer",   0),
+    // @Group: TetherTension
+    // @Path: ../libraries/AP_TetherTension/AP_TetherTension_Analog.cpp
+    GOBJECT(tethertension_sensor, "TetherTension_Analog", AP_TetherTension_Analog),
 
     // @Group: RSSI_
     // @Path: ../libraries/AP_RSSI/AP_RSSI.cpp
