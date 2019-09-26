@@ -83,14 +83,3 @@ void Plane::rpm_update(void)
         }
     }
 }
-
-/*
-  update Tether Tension sensor, AWEsome
- */
-void Plane::tethertension_update(void)
-{
-    //tethertension_sensor.update();
-    //{
-    //    logger.Write_TetherTension(tethertension_sensor);   
-    //}
-}
