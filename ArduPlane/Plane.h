@@ -48,6 +48,7 @@
 #include <AP_Airspeed/AP_Airspeed.h>
 #include <AP_Terrain/AP_Terrain.h>
 #include <AP_RPM/AP_RPM.h>
+// #include <AP_TetherTension_Analog/AP_TetherTension_Analog.h>
 #include <AP_Stats/AP_Stats.h>     // statistics library
 #include <AP_Beacon/AP_Beacon.h>
 
@@ -230,6 +231,7 @@ private:
     AP_Vehicle::FixedWing::Rangefinder_State rangefinder_state;
 
     AP_RPM rpm_sensor;
+    // AP_TetherTension_Analog tethertension_sensor;
 
 // Inertial Navigation EKF
 #if AP_AHRS_NAVEKF_AVAILABLE
@@ -301,6 +303,11 @@ private:
     // Optical flow sensor
     OpticalFlow optflow;
 #endif
+
+    //awesome tethertension
+    AP_HAL::AnalogSource *_voltage_analog_source;
+    float _current_analog_voltage;
+
 
     // Rally Ponints
     AP_Rally rally;
@@ -1227,6 +1234,7 @@ private:
     void read_rangefinder(void);
     void read_airspeed(void);
     void rpm_update(void);
+    // void tethertension_update(void);
     void init_ardupilot();
     void startup_ground(void);
     bool set_mode(Mode& new_mode, const mode_reason_t reason);

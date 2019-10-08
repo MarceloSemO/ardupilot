@@ -82,4 +82,15 @@ void Plane::rpm_update(void)
             logger.Write_RPM(rpm_sensor);
         }
     }
+    //awesome tethertension
+    _current_analog_voltage = _voltage_analog_source->voltage_average();
+
+    logger.Write("TFRC", "voltage", "f", _current_analog_voltage);
+    // hal.console->printf("[%u %.4f] ",(unsigned)14, (double)_current_analog_voltage);
 }
+
+// void Plane::tethertension_update(void)
+// {
+//     tethertension_sensor.update();
+    
+// }

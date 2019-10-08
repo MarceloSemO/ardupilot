@@ -67,6 +67,7 @@ const AP_Scheduler::Task Plane::scheduler_tasks[] = {
     SCHED_TASK(one_second_loop,         1,    400),
     SCHED_TASK(check_long_failsafe,     3,    400),
     SCHED_TASK(rpm_update,             10,    100),
+    // SCHED_TASK(tethertension_update,   10,    100),
     SCHED_TASK(airspeed_ratio_update,   1,    100),
 #if MOUNT == ENABLED
     SCHED_TASK_CLASS(AP_Mount, &plane.camera_mount, update, 50, 100),
@@ -121,6 +122,8 @@ void Plane::setup()
 
     // initialise the main loop scheduler
     scheduler.init(&scheduler_tasks[0], ARRAY_SIZE(scheduler_tasks), MASK_LOG_PM);
+    //awesome tethertension
+    _voltage_analog_source = hal.analogin->channel(14);
 }
 
 void Plane::loop()
